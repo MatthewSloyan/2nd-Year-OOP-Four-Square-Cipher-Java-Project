@@ -20,3 +20,22 @@ public class Parser {
 		return sb.toString();
 	}
 }
+
+/*ArrayList<Character> sample = new ArrayList<Character>();
+//StringBuilder sb = new StringBuilder();
+BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(result)));
+
+String line = null;
+int i = 0;
+
+while((line = br.readLine())!= null)
+{
+	line = line.toUpperCase().replaceAll("[^A-Za-z0-9]", "");
+	sample.add(line.charAt(i));
+	i++;
+}
+br.close();
+
+return sample;*/
+
+

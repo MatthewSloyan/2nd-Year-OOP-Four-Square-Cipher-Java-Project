@@ -23,7 +23,8 @@ public class Menu {
 			switch (selection)
 			{
 				case 1:
-					//encryptMenu();
+					encryptMenu e = new encryptMenu();
+					e.encrypt();
 					break;
 				case 2:
 					//decryptMenu();
