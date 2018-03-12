@@ -1,5 +1,6 @@
 package ie.gmit.sw;
 
+import java.io.*;
 import java.util.ArrayList;
 
 public class encryptMenu {
@@ -11,16 +12,15 @@ public class encryptMenu {
 	
 	public void encrypt() {
 		Parser p = new Parser();
-		ArrayList<Character> sample = new ArrayList<Character>();
+		ArrayList<Character> documentChar = new ArrayList<Character>();
 		
 		int posOne = 0, posTwo = 0;
 		int rowOne = 0, colOne = 0, rowTwo = 0, colTwo = 0;
 		int finalPosOne = 0, finalPosTwo = 0;
-		int rowNumQ2 = 0, rowNumQ3 = 0;
 		
 		try {
-			String parsedText = p.parse("PoblachtNaHEireann.txt", false);
-			System.out.println(parsedText + "\n");
+			String parsedText = p.parse("WarAndPeace-LeoTolstoy.txt", false);
+			//System.out.println(parsedText + "\n");
 			
 			//add an x to the end of the array if uneven
 			if (parsedText.length() % 2 != 0) {
@@ -29,11 +29,28 @@ public class encryptMenu {
 			
 			for (int i = 0; i < parsedText.length(); i+=2) 
 			{
-				sample.add(parsedText.charAt(i));
-				sample.add(parsedText.charAt(i+1));
+				/*if(parsedText.charAt(i) == ' ') {
+					if(parsedText.charAt(i + 1) == ' ') {
+						
+					}
+					documentChar.add(parsedText.charAt(i+1));
+					documentChar.add(parsedText.charAt(i+=2));
+					
+					posOne = documentChar.get(i + 1);
+					posTwo = documentChar.get(i + 2);
+				}
+				else {
+					documentChar.add(parsedText.charAt(i));
+					documentChar.add(parsedText.charAt(i+1));
+					
+					posOne = documentChar.get(i);
+					posTwo = documentChar.get(i + 1);
+				}*/
+				documentChar.add(parsedText.charAt(i));
+				documentChar.add(parsedText.charAt(i+1));
 				
-				posOne = sample.get(i);
-				posTwo = sample.get(i + 1);
+				posOne = documentChar.get(i);
+				posTwo = documentChar.get(i + 1);
 						
 				//condition if ascii value is >= 75 to take into account the J
 				if (posOne >= 75) {
@@ -55,56 +72,42 @@ public class encryptMenu {
 				rowTwo = posTwo / 5;
 				colTwo = posTwo % 5;
 				
-				//get the position of Q2
-				if (rowOne == 0) {
-					rowNumQ2 = 0;
-				}
-				else if (rowOne == 1) {
-					rowNumQ2 = 5;
-				}
-				else if (rowOne == 2) {
-					rowNumQ2 = 10;	
-				}
-				else if (rowOne == 3) {
-					rowNumQ2 = 15;
-				}
-				else {
-					rowNumQ2 = 20;
-				}
-				
-				//get the position of Q2
-				if (rowTwo == 0) {
-					rowNumQ3 = 0;
-				}
-				else if (rowTwo == 1) {
-					rowNumQ3 = 5;
-				}
-				else if (rowTwo == 2) {
-					rowNumQ3 = 10;	
-				}
-				else if (rowTwo == 3) {
-					rowNumQ3 = 15;
-				}
-				else {
-					rowNumQ3 = 20;
-				}
-				
-				finalPosOne = rowNumQ2 + colTwo;
-				finalPosTwo = rowNumQ3 + colOne;
+				finalPosOne = rowOne * 5 + colTwo;
+				finalPosTwo = rowTwo * 5 + colOne;
 				
 				//encrypt char One
-				sample.set(i, matrixQ2[finalPosOne]);
+				documentChar.set(i, matrixQ2[finalPosOne]);
 				
 				//encrypt char two
-				sample.set(i + 1, matrixQ3[finalPosTwo]);
+				documentChar.set(i + 1, matrixQ3[finalPosTwo]);
 				
 			} //outer for
 			
-			System.out.println(sample.toString());
+			//System.out.println(documentChar.toString());
+			
+			StringBuilder sb = new StringBuilder();
+			for (char c : documentChar)
+			{
+			    sb.append(c);
+			}
+			
+			//print the encrypted text to a file
+			BufferedWriter writer = new BufferedWriter( new FileWriter("EncryptedText.txt"));
+			writer.write(sb.toString());
+			
+			//close the file
+			writer.close();
+
+			//System.out.println(sb.toString());
+			
 			
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
+		
+		//running time of program
+		long startTime = System.nanoTime();
+		System.out.println("Running time (ms): " + (System.nanoTime() - startTime));
 	}
 }
 

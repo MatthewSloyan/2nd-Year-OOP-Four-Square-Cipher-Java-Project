@@ -27,7 +27,8 @@ public class Menu {
 					e.encrypt();
 					break;
 				case 2:
-					//decryptMenu();
+					decryptMenu d = new decryptMenu();
+					d.decrypt();
 					break;
 				case 3:
 					Keys key = new Keys();
