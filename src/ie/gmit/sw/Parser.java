@@ -13,7 +13,7 @@ public class Parser {
 		
 		while((line = br.readLine())!= null)
 		{
-			line = line.toUpperCase().replaceAll("[^A-Z ]", "").replace('j', 'i').replaceAll(" +", " ");
+			line = line.toUpperCase().replaceAll("[^A-Z +]", "").replace('j', 'i');
 			
 			sb.append(line + "\n");
 		}

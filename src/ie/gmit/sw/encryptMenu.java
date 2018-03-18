@@ -16,62 +16,52 @@ public class encryptMenu {
 		long startTime = System.nanoTime();
 		
 		Parser p = new Parser();
-		ArrayList<Character> documentChar = new ArrayList<Character>();
+		ArrayList<Character> document = new ArrayList<Character>();
 		StringBuilder parsedFile = new StringBuilder();
 		
 		int posOne = 0, posTwo = 0;
 		int rowOne = 0, colOne = 0, rowTwo = 0, colTwo = 0;
 		int finalPosOne = 0, finalPosTwo = 0;
-		int loopCounter = 0;
-		
-		char charOne = ' ', charTwo = ' ';
-		boolean savedChar = false;
+		int locationOne = 0, locationTwo = 0;
 		
 		try {
 			parsedFile = p.parse("./WarAndPeace-LeoTolstoy.txt", false);
-			//System.out.println(parsedFile.substring(0,24) + "\n");
 			
-			//add an x to the end of the array if uneven
-			if (parsedFile.length() % 2 != 0) {
-				parsedFile.append('X');
+			for (int i = 0; i < parsedFile.length() - 1; i++)  
+			{
+				document.add(parsedFile.charAt(i));
 			}
 			
-			for (int i = 0; i < parsedFile.length() - 1; i+=2)  
+			//add an x to the end of the array if uneven
+			if (document.size()-1 % 2 != 0) {
+				document.add('X');
+			}
+			
+			for (int i = 0; i < document.size() - 1; i+=2)  
 			{
-				if (savedChar == false) {
-					if (parsedFile.charAt(i) == ' ' || parsedFile.charAt(i) == '\n') {
-						if (parsedFile.charAt(i + 1) == ' ' || parsedFile.charAt(i + 1) == '\n') {
-							continue;
-						}
-						else {
-							i--;
-							continue;
-						}
-					}
-					else {
-						charOne = parsedFile.charAt(i);
-						savedChar = true;
-					}
-				}
-				if (savedChar == true) {
-					if (parsedFile.charAt(i + 1) == ' ' || parsedFile.charAt(i + 1) == '\n') {
-						i--;
+				if (document.get(i) == ' ' || document.get(i) == '\n') {
+					if (document.get(i + 1) == ' ' || document.get(i + 1) == '\n') {
 						continue;
 					}
 					else {
-						charTwo = parsedFile.charAt(i + 1);
+						i--;
+						continue;
 					}
-					
-					documentChar.add(charOne);
-					posOne = documentChar.get(documentChar.size() - 1);
-					documentChar.add(charTwo);
-					posTwo = documentChar.get(documentChar.size() - 1);
-					
-					//initalize values to their default again
-					charOne = ' ';
-					charTwo = ' ';
-					savedChar = false;
 				}
+				else {
+					locationOne = i;
+				}
+			
+				if (document.get(i + 1) == ' ' || document.get(i + 1) == '\n') {
+					i--;
+					continue;
+				}
+				else {
+					locationTwo = i + 1;
+				}
+				
+				posOne = document.get(locationOne);
+				posTwo = document.get(locationTwo);
 						
 				//condition if ascii value is >= 75 to take into account the J
 				if (posOne >= 75) {
@@ -97,20 +87,15 @@ public class encryptMenu {
 				finalPosTwo = rowTwo * 5 + colOne;
 				
 				//encrypt char One
-				documentChar.set(loopCounter, matrixQ2[finalPosOne]);
-				
+				document.set(locationOne, matrixQ2[finalPosOne]);
 				//encrypt char two
-				documentChar.set(loopCounter + 1, matrixQ3[finalPosTwo]);
-				
-				//System.out.println(loopCounter);
-				
-				loopCounter += 2;
+				document.set(locationTwo, matrixQ3[finalPosTwo]);
 			} //outer for
 			
 			//System.out.println(documentChar.toString());
 			
 			StringBuilder sb = new StringBuilder();
-			for (char c : documentChar)
+			for (char c : document)
 			{
 			    sb.append(c);
 			}
@@ -123,7 +108,6 @@ public class encryptMenu {
 			writer.close();
 
 			//System.out.println(sb.toString());
-			
 			
 		} catch (Exception e1) {
 			e1.printStackTrace();
