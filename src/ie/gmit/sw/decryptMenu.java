@@ -12,13 +12,15 @@ public class decryptMenu {
 
 	public void decrypt() throws Exception{
 		try {
+			//running time of program
+			long startTime = System.nanoTime();
+			
 			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("EncryptedText.txt")));
 			StringBuilder sb = new StringBuilder();
 	
 			ArrayList<Character> decryptDocumentChar = new ArrayList<Character>();
 			
 			String line = null;
-			//int posOne = 0, posTwo = 0;
 			int rowOne = 0, colOne = 0, rowTwo = 0, colTwo = 0;
 			int finalPosOne = 0, finalPosTwo = 0;
 			int savedPosOne = 0, savedPosTwo = 0;
@@ -88,6 +90,8 @@ public class decryptMenu {
 			writer.close();
 	
 			//System.out.println(sbE.toString());
+			
+			System.out.println("Running time (ms): " + (System.nanoTime() - startTime));
 	
 		} //try
 	
@@ -95,10 +99,6 @@ public class decryptMenu {
 			e1.printStackTrace();
 		}
 		
-		//running time of program
-		long startTime = System.nanoTime();
-		System.out.println("Running time (ms): " + (System.nanoTime() - startTime));
 		
 	}
-
 }

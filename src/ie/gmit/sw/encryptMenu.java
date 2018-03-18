@@ -11,46 +11,67 @@ public class encryptMenu {
 	//private char[] matrixQ4 = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 	
 	public void encrypt() {
+		
+		//running time of program
+		long startTime = System.nanoTime();
+		
 		Parser p = new Parser();
 		ArrayList<Character> documentChar = new ArrayList<Character>();
+		StringBuilder parsedFile = new StringBuilder();
 		
 		int posOne = 0, posTwo = 0;
 		int rowOne = 0, colOne = 0, rowTwo = 0, colTwo = 0;
 		int finalPosOne = 0, finalPosTwo = 0;
+		int loopCounter = 0;
+		
+		char charOne = ' ', charTwo = ' ';
+		boolean savedChar = false;
 		
 		try {
-			String parsedText = p.parse("WarAndPeace-LeoTolstoy.txt", false);
-			//System.out.println(parsedText + "\n");
+			parsedFile = p.parse("./WarAndPeace-LeoTolstoy.txt", false);
+			//System.out.println(parsedFile.substring(0,24) + "\n");
 			
 			//add an x to the end of the array if uneven
-			if (parsedText.length() % 2 != 0) {
-				parsedText = parsedText + 'X';
+			if (parsedFile.length() % 2 != 0) {
+				parsedFile.append('X');
 			}
 			
-			for (int i = 0; i < parsedText.length(); i+=2) 
+			for (int i = 0; i < parsedFile.length() - 1; i+=2)  
 			{
-				/*if(parsedText.charAt(i) == ' ') {
-					if(parsedText.charAt(i + 1) == ' ') {
-						
+				if (savedChar == false) {
+					if (parsedFile.charAt(i) == ' ' || parsedFile.charAt(i) == '\n') {
+						if (parsedFile.charAt(i + 1) == ' ' || parsedFile.charAt(i + 1) == '\n') {
+							continue;
+						}
+						else {
+							i--;
+							continue;
+						}
 					}
-					documentChar.add(parsedText.charAt(i+1));
-					documentChar.add(parsedText.charAt(i+=2));
-					
-					posOne = documentChar.get(i + 1);
-					posTwo = documentChar.get(i + 2);
+					else {
+						charOne = parsedFile.charAt(i);
+						savedChar = true;
+					}
 				}
-				else {
-					documentChar.add(parsedText.charAt(i));
-					documentChar.add(parsedText.charAt(i+1));
+				if (savedChar == true) {
+					if (parsedFile.charAt(i + 1) == ' ' || parsedFile.charAt(i + 1) == '\n') {
+						i--;
+						continue;
+					}
+					else {
+						charTwo = parsedFile.charAt(i + 1);
+					}
 					
-					posOne = documentChar.get(i);
-					posTwo = documentChar.get(i + 1);
-				}*/
-				documentChar.add(parsedText.charAt(i));
-				documentChar.add(parsedText.charAt(i+1));
-				
-				posOne = documentChar.get(i);
-				posTwo = documentChar.get(i + 1);
+					documentChar.add(charOne);
+					posOne = documentChar.get(documentChar.size() - 1);
+					documentChar.add(charTwo);
+					posTwo = documentChar.get(documentChar.size() - 1);
+					
+					//initalize values to their default again
+					charOne = ' ';
+					charTwo = ' ';
+					savedChar = false;
+				}
 						
 				//condition if ascii value is >= 75 to take into account the J
 				if (posOne >= 75) {
@@ -76,11 +97,14 @@ public class encryptMenu {
 				finalPosTwo = rowTwo * 5 + colOne;
 				
 				//encrypt char One
-				documentChar.set(i, matrixQ2[finalPosOne]);
+				documentChar.set(loopCounter, matrixQ2[finalPosOne]);
 				
 				//encrypt char two
-				documentChar.set(i + 1, matrixQ3[finalPosTwo]);
+				documentChar.set(loopCounter + 1, matrixQ3[finalPosTwo]);
 				
+				//System.out.println(loopCounter);
+				
+				loopCounter += 2;
 			} //outer for
 			
 			//System.out.println(documentChar.toString());
@@ -105,8 +129,7 @@ public class encryptMenu {
 			e1.printStackTrace();
 		}
 		
-		//running time of program
-		long startTime = System.nanoTime();
+		
 		System.out.println("Running time (ms): " + (System.nanoTime() - startTime));
 	}
 }
