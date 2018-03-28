@@ -8,7 +8,10 @@ public class Menu {
 	boolean keepRunning = true;
 	
 	public void show() {
-		
+		System.out.println("Four Square Cipher ========================");
+ 		
+ 		new Keys().setKeys();
+ 		
 		while(keepRunning) {
 			System.out.println(text);
 			String option = console.next();
@@ -23,16 +26,13 @@ public class Menu {
 			switch (selection)
 			{
 				case 1:
-					encryptMenu e = new encryptMenu();
-					e.encrypt();
+					new encryptMenu().encrypt();
 					break;
 				case 2:
-					decryptMenu d = new decryptMenu();
-					d.decrypt();
+					new decryptMenu().decrypt();
 					break;
 				case 3:
-					Keys key = new Keys();
-					key.setKeys();
+					new Keys().setKeys();
 					break;
 				default:
 					keepRunning = false;

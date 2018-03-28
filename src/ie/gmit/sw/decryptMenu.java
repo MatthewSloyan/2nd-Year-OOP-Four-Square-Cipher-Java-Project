@@ -6,9 +6,12 @@ import java.util.ArrayList;
 public class decryptMenu {
 	
 	private char[] matrixQ1 = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-	private char[] matrixQ2 = {'Z', 'G', 'P', 'T', 'F', 'O', 'I', 'H', 'M', 'U', 'W', 'D', 'R', 'C', 'N', 'Y', 'K', 'E', 'Q', 'A', 'X', 'V', 'S', 'B', 'L'};
-	private char[] matrixQ3 = {'M', 'F', 'N', 'B', 'D', 'C', 'R', 'H', 'S', 'A', 'X', 'Y', 'O', 'G', 'V', 'I', 'T', 'U', 'E', 'W', 'L', 'Q', 'Z', 'K', 'P'};
-
+	//private char[] matrixQ2 = {'Z', 'G', 'P', 'T', 'F', 'O', 'I', 'H', 'M', 'U', 'W', 'D', 'R', 'C', 'N', 'Y', 'K', 'E', 'Q', 'A', 'X', 'V', 'S', 'B', 'L'};
+	//private char[] matrixQ3 = {'M', 'F', 'N', 'B', 'D', 'C', 'R', 'H', 'S', 'A', 'X', 'Y', 'O', 'G', 'V', 'I', 'T', 'U', 'E', 'W', 'L', 'Q', 'Z', 'K', 'P'};
+	
+	private char[] matrixQ2 = new char[25];
+	private char[] matrixQ3 = new char[25];
+	
 	public void decrypt() throws Exception{
 		try {
 			//running time of program
@@ -22,6 +25,9 @@ public class decryptMenu {
 			
 			//create an arraylist to place each character into for decryption
 			ArrayList<Character> decryptDocumentChar = new ArrayList<Character>();
+			
+			//CipherKeys cipher = new CipherKeys();
+			CipherKeys cipher = CipherKeys.getInstance();
 			
 			//Variable declaration
 			String line = null;
@@ -43,6 +49,9 @@ public class decryptMenu {
 			{
 				decryptDocumentChar.add(sb.charAt(i));
 			}
+			
+			matrixQ2 = cipher.getKeyQ2();
+			matrixQ3 = cipher.getKeyQ3();
 			
 			//run through the array list in increments of two to create the bigrams and swap the values (decryption)
 			for (int i = 0; i < decryptDocumentChar.size() - 1; i+=2) 
