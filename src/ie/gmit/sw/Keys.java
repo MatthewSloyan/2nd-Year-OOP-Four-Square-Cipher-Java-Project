@@ -6,21 +6,17 @@ public class Keys {
 	private Scanner console = new Scanner(System.in);
 	private char[] matrixQ2 = new char[25];
 	private char[] matrixQ3 = new char[25];
+	private List<Character> alphabet = Arrays.asList('A','B','C','D','E','F','G','H','I','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
 	
 	public void setKeys() {
-		int cipherInput;
-		int charCounter = 1;
-		int loopCounter = 0;
-		char uniqueKeyInput;
 		
 		CipherKeys cipher = CipherKeys.getInstance();
-		//HashMap<Integer, Character> hmap = new HashMap<Integer, Character>();
-		
-		//LinkedHashSet lhs = new LinkedHashSet();
 		LinkedHashSet<Character> lHashS = new LinkedHashSet<Character>(); 
-	      
-	      // add elements to the hash set
-	  
+		
+		String[] stringHalves = new String[2];
+		String uniqueKeyInput;
+		int middle, cipherInput;
+		
  		do
 		{
         	System.out.println("\nPlease choose one of the following options.");
@@ -35,33 +31,48 @@ public class Keys {
  		switch (cipherInput)
 		{
 			case 1:
-				System.out.println("\nPlease enter a unique string of characters from A-Z with a space between each character (E.g A G H K)");
 				do
 				{
-					System.out.print("Character " + charCounter + ": ");
-					uniqueKeyInput = console.next().charAt(0);
-					uniqueKeyInput = Character.toUpperCase(uniqueKeyInput);
-					
-					if (lHashS.contains(uniqueKeyInput)) {
-						System.out.println("The Character you have input is not unqiue, please try again or enter '*' to see the values already entered.");
-					}
-					else if (uniqueKeyInput == '*') {
-						System.out.println(lHashS);
-					}
-					else {
-						lHashS.add(uniqueKeyInput);
-						charCounter++;
-					}
-					
-				}while (lHashS.size() < 25);//checks for correct input
+		        	System.out.println("\nWould you like to enter one large >=50 keyword or two >=25 keywords?");
+		            System.out.println(" [1] One >=50 keyword \n [2] Two >=25 keywords");
+		            cipherInput = console.nextInt();
+		            
+		            if (cipherInput > 2 || cipherInput <= 0) {
+		            	System.out.println("Invalid Selction, please try again");
+		            }
+				}while (!(cipherInput == 1)&&!(cipherInput == 2));//checks for correct input
 				
-				for(Character c:lHashS){  
-					matrixQ2[loopCounter] = c.charValue();
-					loopCounter++;
-				}  
 				
-				cipher.setUserKey1(matrixQ2);
-				cipher.setUserKey2(matrixQ2);
+				if (cipherInput == 1) {
+					System.out.println("\nPlease enter a unique set of characters from A-Z excluding J.\nThen hit enter when you are done!");
+					uniqueKeyInput = console.next();
+					uniqueKeyInput = uniqueKeyInput.toUpperCase();
+					
+					middle = uniqueKeyInput.length() / 2; //get the middle of the String
+					stringHalves[0] = uniqueKeyInput.substring(0, middle);
+					stringHalves[1] = uniqueKeyInput.substring(middle);
+					
+					matrixQ2 = addToHashSet(lHashS, stringHalves[0]);
+					cipher.setUserKey1(matrixQ2);
+					
+					matrixQ3 = addToHashSet(lHashS, stringHalves[1]);
+					cipher.setUserKey2(matrixQ3);
+					
+					System.out.println("Both keywords have been added to the cipher");
+					
+				}
+				else {
+					matrixQ2 = addToHashSet(lHashS, " ");
+					cipher.setUserKey1(matrixQ2);
+					
+					System.out.println("The first keyword has been added to the cipher");
+					//System.out.println(lHashS);
+					
+					matrixQ3 = addToHashSet(lHashS, " ");
+					cipher.setUserKey2(matrixQ3);
+					
+					System.out.println("The first keyword has been added to the cipher");
+				}
 				break;
 			case 2:
 				cipher.setRandomKey1();
@@ -71,5 +82,45 @@ public class Keys {
 				System.out.println("\nInvalid selection.");
 				break;
 		} // menu selection switch
+	}
+
+	private char[] addToHashSet(LinkedHashSet<Character> lHashS, String input) {
+		String uniqueKeyInput;
+		int loopCounter = 0;
+		
+		if (input == " ") {
+			System.out.println("\nPlease enter a unique set of characters from A-Z excluding J.\nThen hit enter when you are done!");
+			uniqueKeyInput = console.next();
+			uniqueKeyInput = uniqueKeyInput.toUpperCase();
+		}
+		else {
+			uniqueKeyInput = input;
+		}
+		
+		for (int i = 0; i < uniqueKeyInput.length(); i++)  
+		{
+			if (((int)uniqueKeyInput.charAt(i) >= 65 && (int)uniqueKeyInput.charAt(i) <= 90) && (int)uniqueKeyInput.charAt(i) != 74) {
+				lHashS.add(uniqueKeyInput.charAt(i));
+			}
+		}
+		
+		if (lHashS.size() < 25) {
+			for (int i = 0; i < alphabet.size(); i++)  
+			{
+				if (lHashS.contains(alphabet.get(i))){
+					continue;
+				}
+				else {
+					lHashS.add(alphabet.get(i));
+				}
+			}
+		}
+		
+		for(Character c:lHashS){  
+			matrixQ2[loopCounter] = c.charValue();
+			loopCounter++;
+		}  
+		
+		return matrixQ2;
 	}
 }

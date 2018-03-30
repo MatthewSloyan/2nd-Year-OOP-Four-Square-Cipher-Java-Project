@@ -4,11 +4,15 @@ import java.net.*;
 
 public class Parser {
 
-	public StringBuilder parse(String result, boolean url) throws Exception {
+	public void parse(String result, boolean url, boolean option) throws Exception {
+		
+		EncryptDecryptCipher e = new EncryptDecryptCipher();
 		
 		StringBuilder sb = new StringBuilder();
 		BufferedReader br;
 		String line = null;
+		
+		long startTime = System.nanoTime(); //running time of program
 		
 		if (url == false) {
 			br = new BufferedReader(new FileReader(result));
@@ -21,21 +25,22 @@ public class Parser {
 		
 		while((line = br.readLine())!= null)
 		{
-			line = line.toUpperCase().replaceAll("[^A-Z +]", "").replace('j', 'i');
-			
-			sb.append(line + "\n");
+			if (option == false) {
+				line = line.toUpperCase().replaceAll("[^A-Z +]", "").replace('j', 'i');
+				sb.append(e.encryptDecrypt(line, true) + "\n");
+			}
+			else
+				sb.append(e.encryptDecrypt(line, false) + "\n");
 		}
 		br.close();
 		
 		//BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(result)));
 	
-		//print the encrypted text to a file
-		BufferedWriter writer = new BufferedWriter( new FileWriter("TestText.txt"));
-		writer.write(sb.toString());
+		//running time
+		System.out.println("Running time (ms): " + (System.nanoTime() - startTime));
+		final long usedMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+		System.out.println("Used memory: " + usedMem);
 		
-		//close the file
-		writer.close();
-		
-		return sb;
+		new PrintDisplay().print(sb, option);
 	}
 }

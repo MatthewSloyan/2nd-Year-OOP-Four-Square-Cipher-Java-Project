@@ -1,5 +1,4 @@
 package ie.gmit.sw;
-import java.io.*;
 
 public class Runner {
 

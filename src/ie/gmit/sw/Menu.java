@@ -1,5 +1,4 @@
 package ie.gmit.sw;
-import java.io.*;
 import java.util.*;
 
 public class Menu {
@@ -44,8 +43,3 @@ public class Menu {
 		}
 	}
 }
-
-/*List<Character> alphabet = new ArrayList<>();
-List<Character> key1 = new ArrayList<>(alphabet);
-Collections.shuffle(key1);*/
-
