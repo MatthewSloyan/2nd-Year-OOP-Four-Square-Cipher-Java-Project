@@ -31,8 +31,10 @@ public class EncryptDecryptCipher {
 			}
 			
 			//add an x to the end of the array if uneven
-			if (document.size() % 2 != 0) {
-				document.add(' ');
+			if(option == true) {
+				if (document.size() % 2 != 0) {
+					document.add(' ');
+				}
 			}
 			
 			//run through the array list in increments of two to create the bigrams and swap the values (Encryption)
@@ -126,11 +128,13 @@ public class EncryptDecryptCipher {
 				
 				if(option == true) {
 					//using the location and the matrix with the position found encrypt charOne and Two 
-					document.set(locationOne, matrixQ2[finalPosOne]);
-					document.set(locationTwo, matrixQ3[finalPosTwo]);
+					try {
+						document.set(locationOne, matrixQ2[finalPosOne]);
+						document.set(locationTwo, matrixQ3[finalPosTwo]);
+					} catch (Exception e) {
+					}
 				}
 				else {
-					//encrypt char One
 					document.set(locationOne, matrixQ1[finalPosOne]);
 					document.set(locationTwo, matrixQ1[finalPosTwo]);
 				}
@@ -140,7 +144,7 @@ public class EncryptDecryptCipher {
 			e1.printStackTrace();
 		}
 		
-		//Add each character to a StringBuilder to print it out to a file
+		//Add each character to a StringBuilder to return it to the parser class
 		StringBuilder sb = new StringBuilder();
 		for (char c : document)
 		{

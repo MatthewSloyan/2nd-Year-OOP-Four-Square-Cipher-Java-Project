@@ -3,7 +3,7 @@ import java.util.*;
 
 public class Menu {
 	private Scanner console = new Scanner(System.in);
-	private String text = "Select and option  |  1: Encrypt  |  2: Decrypt  |  3: Set Keys";
+	private String text = "Please select an option:\n (1) Encrypt\n (2) Decrypt\n (3) Set Keys \n (4) Exit Program";
 	boolean keepRunning = true;
 	
 	public void show() {
@@ -11,6 +11,7 @@ public class Menu {
  		
  		new Keys().setKeys();
  		
+ 		//Running time: O(N);
 		while(keepRunning) {
 			System.out.println(text);
 			String option = console.next();

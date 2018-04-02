@@ -14,12 +14,13 @@ public class encryptMenu {
 		//declare the variables
 		int option;
 		String URLInput;
+		String fileName;
 		
 		try {
 	 		do
 			{
 	        	System.out.println("\nPlease choose one of the following options to Encrypt.");
-	            System.out.println(" [1] Encrypt a selected Document\n [2] Encrypt a selected URL");
+	            System.out.println(" (1) Select a File to encrypt\n (2) Enter a URL to encrypt");
 	            option = console.nextInt();
 	            
 	            if (option > 2 || option <= 0) {
@@ -30,21 +31,29 @@ public class encryptMenu {
 			switch (option)
 			{
 				case 1:
-					//parse the file the user selects
+					//call the class to open JFileChooser and select a text file from the computer
+					//sometimes the first time the program is run the file chooser window opens up behind the console, but usually works after that.
+					
+					//fileName = new FileChooser().chooseFile();
+					//p.parse(fileName, false, false);
+					
+					//parse the file selected and encrypt, false 1 is that it's not a URL and false 2 is for encryption.
 					p.parse("./WarAndPeace-LeoTolstoy.txt", false, false);
 					break;
 				case 2:
 					System.out.println("Please enter the Url you would like to encrypt");
 					URLInput = console.next();
 					
+					System.out.println(URLInput);
+					
 					try {
+						//parse the URL input for encryption, true is for a URL and false is for encryption.
 						p.parse(URLInput, true, false);
 					}
 					 catch (Exception e1) {
 						e1.printStackTrace();
 						System.out.println("Unable to encrypt");
 					}
-					//String content = URLConnectionReader.getText("http://www.yahoo.com/");
 					break;
 			} // menu selection switch
 			

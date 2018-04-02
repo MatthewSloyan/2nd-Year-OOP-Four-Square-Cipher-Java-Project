@@ -8,6 +8,7 @@ public class PrintDisplay {
 	
 	private Scanner console = new Scanner(System.in);
 
+	//Running time: Linear O(N);
 	public void print(StringBuilder sb, boolean option) {
 		String fileName = "";
 		int userSelection;
@@ -33,7 +34,7 @@ public class PrintDisplay {
 		do
 		{
         	System.out.println("\nWould you like to print the text to screen?");
-            System.out.println(" [1] Yes\n [2] No");
+            System.out.println(" (1) Yes\n (2) No");
             userSelection = console.nextInt();
             
             if (userSelection > 2 || userSelection <= 0) {
