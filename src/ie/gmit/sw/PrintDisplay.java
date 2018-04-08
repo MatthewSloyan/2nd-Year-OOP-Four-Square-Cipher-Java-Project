@@ -4,7 +4,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.util.*;
 
-public class PrintDisplay {
+public class PrintDisplay extends OutputFileName{
 	
 	private Scanner console = new Scanner(System.in);
 
@@ -13,13 +13,19 @@ public class PrintDisplay {
 		String fileName = "";
 		int userSelection;
 		
-		if (option == false) 
-			fileName = "EncryptedText.txt";
-		else 
-			fileName = "DecryptedText.txt";
-			
+		//get the instance of the file name access the name that was chosen
+		OutputFileName file = OutputFileName.getFileInstance();
+		
+		//if false then it's for encryption, so set the file name to what was entered.
+		if (option == false) {
+			fileName = file.getEncryptFileName() + ".txt";
+		}
+		else {
+			fileName = file.getDecryptFileName() + ".txt";
+		}
+		
 		try {
-			//print the stringbuilder to a file
+			//print the passed stringbuilder to a file
 			BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
 			writer.write(sb.toString());
 			
@@ -42,6 +48,7 @@ public class PrintDisplay {
             }
 		}while (!(userSelection == 1)&&!(userSelection == 2));//checks for correct input
 		
+		//print the encrypted/decrypted text to the screen.
 		if (userSelection == 1) {
 			System.out.println(sb);
 		}

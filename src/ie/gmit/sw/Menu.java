@@ -1,4 +1,5 @@
 package ie.gmit.sw;
+import java.io.IOException;
 import java.util.*;
 
 public class Menu {
@@ -6,7 +7,7 @@ public class Menu {
 	private String text = "Please select an option:\n (1) Encrypt\n (2) Decrypt\n (3) Set Keys \n (4) Exit Program";
 	boolean keepRunning = true;
 	
-	public void show() {
+	public void show() throws IOException {
 		System.out.println("Four Square Cipher ========================");
  		
  		new Keys().setKeys();
