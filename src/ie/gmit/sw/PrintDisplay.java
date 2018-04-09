@@ -1,7 +1,7 @@
 package ie.gmit.sw;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.*;
 
 public class PrintDisplay extends OutputFileName{
@@ -9,33 +9,12 @@ public class PrintDisplay extends OutputFileName{
 	private Scanner console = new Scanner(System.in);
 
 	//Running time: Linear O(N);
-	public void print(StringBuilder sb, boolean option) {
-		String fileName = "";
+	public void print(boolean option) {
+		String fileName = "", line = null;
 		int userSelection;
 		
 		//get the instance of the file name access the name that was chosen
 		OutputFileName file = OutputFileName.getFileInstance();
-		
-		//if false then it's for encryption, so set the file name to what was entered.
-		if (option == false) {
-			fileName = file.getEncryptFileName() + ".txt";
-		}
-		else {
-			fileName = file.getDecryptFileName() + ".txt";
-		}
-		
-		try {
-			//print the passed stringbuilder to a file
-			BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
-			writer.write(sb.toString());
-			
-			//close the file
-			writer.close();
-		}
-		 catch (Exception e1) {
-			e1.printStackTrace();
-			System.out.println("Unable print to file");
-		}
 		
 		do
 		{
@@ -50,7 +29,29 @@ public class PrintDisplay extends OutputFileName{
 		
 		//print the encrypted/decrypted text to the screen.
 		if (userSelection == 1) {
-			System.out.println(sb);
-		}
+			//if false then it's for encryption, so set the file name to what was entered.
+			if (option == false) {
+				fileName = file.getEncryptFileName() + ".txt";
+			}
+			else {
+				fileName = file.getDecryptFileName() + ".txt";
+			}
+			
+			try {
+				//print the passed stringbuilder to a file
+				BufferedReader br = new BufferedReader(new FileReader("./" + fileName));
+				
+				while((line = br.readLine())!= null)
+				{
+					System.out.println(line);
+				}
+				//close the file
+				br.close();
+			}
+			 catch (Exception e1) {
+				e1.printStackTrace();
+				System.out.println("Unable print to console");
+			}
+		} //if
 	}
 }
